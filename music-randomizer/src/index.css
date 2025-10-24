@@ -1,0 +1,106 @@
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color: #e6e6e6;
+  background: linear-gradient(to bottom, #0f172a, #0b1220);
+}
+
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.header {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 24px;
+}
+.brand-badge {
+  width: 40px; height: 40px; display: grid; place-items: center;
+  background: rgba(217, 70, 239, 0.15);
+  border: 2px solid rgba(217, 70, 239, 0.4);
+  border-radius: 16px;
+}
+.header h1 { margin: 0; font-size: 28px; font-weight: 600; }
+.header p { margin: 2px 0 0; font-size: 13px; color: #a8b1c4; }
+
+
+.row { display: grid; gap: 12px; grid-template-columns: 1fr auto; align-items: start; margin-bottom: 16px; }
+.searchbar {
+  display: flex; gap: 8px; padding: 8px; border: 1px solid #334155;
+  border-radius: 16px; background: rgba(30, 41, 59, 0.6);
+}
+.searchbar input {
+  flex: 1; background: transparent; border: 0; outline: 0; padding: 8px 12px;
+  color: #e6e6e6;
+}
+.btn {
+  appearance: none; border: 0; cursor: pointer; border-radius: 12px;
+  padding: 10px 14px; transition: .15s ease; font-weight: 600;
+}
+.btn-primary { background: #e879f9; color: #0b1220; }
+.btn-primary:hover { background: #f0abfc; }
+.btn-ghost { background: #475569; color: #e6e6e6; }
+.btn-ghost:hover { background: #64748b; }
+
+.select {
+  display: flex; align-items: center; gap: 8px;
+  color: #a8b1c4; font-size: 14px;
+}
+.select select {
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid #334155; color: #e6e6e6;
+  border-radius: 12px; padding: 8px 12px; outline: none;
+}
+
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 0; }
+.chip {
+  font-size: 12px; padding: 6px 10px; border-radius: 999px;
+  background: rgba(30, 41, 59, 0.5); border: 1px solid #334155; color: #e6e6e6;
+}
+.chip:hover { background: #334155; }
+
+/* ==== Cards ==== */
+.grid-2 { display: grid; gap: 24px; grid-template-columns: 280px 1fr; }
+.card {
+  border: 1px solid #334155; background: rgba(30, 41, 59, 0.6);
+  border-radius: 24px; padding: 20px;
+}
+
+/* Artwork */
+.artwork { position: relative; overflow: hidden; border: 1px solid #334155; border-radius: 24px; background: rgba(15, 23, 42, 0.4); }
+.artwork .square { aspect-ratio: 1/1; width: 100%; background: rgba(15, 23, 42, 0.4); }
+.artwork img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.badge {
+  position: absolute; top: 10px; left: 10px; font-size: 10px;
+  padding: 4px 6px; border-radius: 10px; background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px); text-transform: uppercase; letter-spacing: .06em;
+}
+
+/* TrackCard */
+.track-title { margin: 0 0 4px; font-size: 22px; font-weight: 700; }
+.track-artist { margin: 0; color: #cbd5e1; }
+.pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.pill {
+  font-size: 12px; padding: 6px 8px; border-radius: 10px;
+  background: rgba(2,6,23,0.4); border: 1px solid #334155; color: #cbd5e1;
+}
+.audio { margin-top: 16px; border: 1px solid #334155; background: rgba(2,6,23,0.4); border-radius: 16px; overflow: hidden; }
+
+/* Controls */
+.controls { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* States */
+.state-error {
+  margin-top: 16px; padding: 12px 14px; border-radius: 16px;
+  background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.3); color: #fecaca;
+}
+.skeleton { margin-top: 16px; }
+.skel-grid { display: grid; gap: 24px; grid-template-columns: 280px 1fr; }
+.skel-box { background: rgba(100, 116, 139, 0.3); border-radius: 16px; height: 24px; }
+.skel-square { background: rgba(100, 116, 139, 0.3); border-radius: 24px; aspect-ratio: 1/1; }
+.empty { margin-top: 40px; text-align: center; color: #a8b1c4; }
+.empty .emoji { font-size: 42px; margin-bottom: 6px; }
