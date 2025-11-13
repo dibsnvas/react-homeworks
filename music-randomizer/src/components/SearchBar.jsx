@@ -21,3 +21,5 @@ export default function SearchBar({ defaultValue = "", onSearch, onReset }) {
     </form>
   );
 }
+
+

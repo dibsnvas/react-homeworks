@@ -30,3 +30,5 @@ export default function TrackCard({ track }) {
     </>
   );
 }
+// Событие → setState → useEffect → fetch → setTracks → рендер карточки
+// onSearch меняет query → useEffect перезапрашивает API → обновляется UI

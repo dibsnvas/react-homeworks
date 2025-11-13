@@ -62,7 +62,7 @@ export default function App() {
       </div>
 
       <div className="chips">
-        {["lofi","edm","taylor swift","k-pop","jazz","kazakh","instrumental"].map(v => (
+        {["Lofi","RnB","Rap","K-pop","Jazz","Pop","Rock"].map(v => (
           <button key={v} className="chip" onClick={()=>setQuery(v)}>#{v}</button>
         ))}
       </div>

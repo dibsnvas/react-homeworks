@@ -20,7 +20,7 @@ body {
 .brand-badge {
   width: 40px; height: 40px; display: grid; place-items: center;
   background: rgba(217, 70, 239, 0.15);
-  border: 2px solid rgba(217, 70, 239, 0.4);
+  border: 2px solid rgba(206, 30, 17, 0.4);
   border-radius: 16px;
 }
 .header h1 { margin: 0; font-size: 28px; font-weight: 600; }
@@ -40,7 +40,7 @@ body {
   appearance: none; border: 0; cursor: pointer; border-radius: 12px;
   padding: 10px 14px; transition: .15s ease; font-weight: 600;
 }
-.btn-primary { background: #e879f9; color: #0b1220; }
+.btn-primary { background: #be110b; color: #0b1220; }
 .btn-primary:hover { background: #f0abfc; }
 .btn-ghost { background: #475569; color: #e6e6e6; }
 .btn-ghost:hover { background: #64748b; }
