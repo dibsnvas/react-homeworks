@@ -64,7 +64,6 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-/* Светлая тема (если включена в системе) */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -83,4 +82,176 @@ button:focus-visible {
   border-radius: 12px;
   display: block;
   margin-top: 20px;
+}
+
+.auth-page {
+  max-width: 420px;
+  margin: 64px auto;
+  padding: 0 16px;
+  color: #f5f5f5;
+}
+
+.auth-card {
+  background-color: #181818;
+  border-radius: 16px;
+  padding: 32px 28px 28px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+  border: 1px solid #333;
+}
+
+.auth-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.auth-label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  gap: 6px;
+  color: #d0d0d0;
+}
+
+.auth-input {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #444;
+  background-color: #111;
+  color: #f5f5f5;
+  font: inherit;
+}
+
+.auth-input:focus {
+  outline: none;
+  border-color: #646cff;
+  box-shadow: 0 0 0 1px #646cff55;
+}
+
+.auth-button {
+  margin-top: 8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: none;
+  width: 100%;
+  font-weight: 600;
+  font-size: 0.95rem;
+  background: linear-gradient(135deg, #111, #3a3a3a);
+  color: #f5f5f5;
+  cursor: pointer;
+  transition: transform 0.08s ease, box-shadow 0.1s ease, background 0.15s ease;
+}
+
+.auth-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+  background: linear-gradient(135deg, #1c1c1c, #525252);
+}
+
+.auth-button:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.auth-error {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: #ff6b6b;
+}
+
+.auth-footer {
+  margin-top: 16px;
+  font-size: 0.85rem;
+  text-align: center;
+  color: #b0b0b0;
+}
+
+.auth-footer a {
+  color: #8ea6ff;
+}
+
+.auth-footer a:hover {
+  color: #b4c4ff;
+}
+
+.profile-page {
+  max-width: 420px;
+  margin: 80px auto;
+  padding: 0 16px;
+  color: #f5f5f5;
+}
+
+.profile-card {
+  background-color: #181818;
+  border-radius: 18px;
+  padding: 32px 28px 28px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+  border: 1px solid #333;
+  animation: fadeIn 0.35s ease;
+}
+
+.profile-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.profile-info-item {
+  background: #111;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #333;
+  font-size: 0.9rem;
+}
+
+.profile-label {
+  display: block;
+  font-size: 0.8rem;
+  color: #aaa;
+  margin-bottom: 4px;
+}
+
+.profile-value {
+  font-size: 1rem;
+  color: #f5f5f5;
+  word-break: break-all;
+}
+
+.logout-button {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #3a3a3a, #111);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.1s ease;
+}
+
+.logout-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.6);
+  background: linear-gradient(135deg, #525252, #151515);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }

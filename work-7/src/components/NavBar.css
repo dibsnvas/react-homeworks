@@ -2,13 +2,13 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  width: 100%;
-  background-color: rgb(243, 1, 1);
-  border-bottom: 1px solid #ddd;
-  padding: 30px 0;
+  background-color: #111;
+  border-bottom: 1px solid #333;
+  padding: 12px 0;
 }
 
 .navbar__content {
+  max-width: 960px;
   margin: 0 auto;
   padding: 0 16px;
 
@@ -20,16 +20,29 @@
 .navbar__logo {
   font-size: 20px;
   font-weight: 700;
-  color: #333;
+  color: #ffffff;
 }
 
 .navbar__links {
   display: flex;
-  gap: 20px;
+  gap: 22px;
 }
 
 .nav-link {
-  color: #333;
+  color: #ffffff;
   text-decoration: none;
+  font-size: 0.95rem;
   font-weight: 500;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.nav-link:hover {
+  color: #d0d0d0;
+  opacity: 0.85;
+}
+
+.nav-link.active {
+  color: #8ea6ff;
+  border-bottom: 2px solid #8ea6ff;
+  padding-bottom: 2px;
 }

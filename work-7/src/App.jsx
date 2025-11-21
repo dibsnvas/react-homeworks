@@ -3,7 +3,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import RootLayout from "./layouts/RootLayout";
+import RootLayout from "./layots/RootLayout";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import ItemsList from "./pages/ItemsList";
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
       { path: "items/:id", element: <ItemDetails /> },
       { path: "login", element: <Login /> },
       { path: "signup", element: <Signup /> },
-      { path: "profile", element: <Profile /> }, // защищена внутри компонента
+      { path: "profile", element: <Profile /> },
     ],
   },
 ]);

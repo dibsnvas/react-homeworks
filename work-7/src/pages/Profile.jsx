@@ -5,7 +5,7 @@ export default function Profile() {
   const { user, loading, logout } = useAuth();
 
   if (loading) {
-    return <p style={{ textAlign: "center", marginTop: 40 }}>Loading...</p>;
+    return <p style={{ textAlign: "center", marginTop: 64 }}>Loading...</p>;
   }
 
   if (!user) {
@@ -13,14 +13,26 @@ export default function Profile() {
   }
 
   return (
-    <section style={{ maxWidth: 400, margin: "40px auto" }}>
-      <h1>Profile</h1>
-      <p><strong>Email:</strong> {user.email}</p>
-      <p><strong>UID:</strong> {user.uid}</p>
+    <section className="profile-page">
+      <div className="profile-card">
+        <h1 className="profile-title">Your Profile</h1>
 
-      <button onClick={logout} style={{ marginTop: 16 }}>
-        Logout
-      </button>
+        <div className="profile-info">
+          <div className="profile-info-item">
+            <span className="profile-label">Email</span>
+            <span className="profile-value">{user.email}</span>
+          </div>
+
+          <div className="profile-info-item">
+            <span className="profile-label">User ID</span>
+            <span className="profile-value">{user.uid}</span>
+          </div>
+        </div>
+
+        <button className="logout-button" onClick={logout}>
+          Logout
+        </button>
+      </div>
     </section>
   );
 }

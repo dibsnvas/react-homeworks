@@ -32,14 +32,16 @@ export default function Login() {
     }
   }
 
-  return (
-    <section style={{ maxWidth: 400, margin: "40px auto" }}>
-      <h1>Login</h1>
+return (
+  <section className="auth-page">
+    <div className="auth-card">
+      <h1 className="auth-title">Login</h1>
 
-      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        <label>
+      <form className="auth-form" onSubmit={handleSubmit}>
+        <label className="auth-label">
           Email
           <input
+            className="auth-input"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -47,9 +49,10 @@ export default function Login() {
           />
         </label>
 
-        <label>
+        <label className="auth-label">
           Password
           <input
+            className="auth-input"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -57,17 +60,22 @@ export default function Login() {
           />
         </label>
 
-        <button type="submit" disabled={submitting}>
+        <button className="auth-button" type="submit" disabled={submitting}>
           {submitting ? "Logging in..." : "Login"}
         </button>
       </form>
 
-      {error && <p style={{ color: "red", marginTop: 8 }}>{error}</p>}
+      {error && (
+        <p className="auth-error">
+          {error}
+        </p>
+      )}
 
-      <p style={{ marginTop: 12 }}>
+      <p className="auth-footer">
         Don't have an account?{" "}
         <Link to="/signup">Sign up</Link>
       </p>
-    </section>
-  );
+    </div>
+  </section>
+);
 }
