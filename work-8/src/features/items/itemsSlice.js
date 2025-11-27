@@ -55,7 +55,6 @@ const itemsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // ===== LIST =====
       .addCase(fetchItems.pending, (state) => {
         state.loadingList = true;
         state.errorList = null;
