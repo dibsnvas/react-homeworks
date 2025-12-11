@@ -255,3 +255,36 @@ button:focus-visible {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
+.offline-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  padding: 8px 12px;
+  text-align: center;
+  background: #ffcc00;
+  color: #000;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.merge-notice {
+  margin: 48px 12px 8px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  background: #1f2933;
+  color: #f9fafb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+.merge-notice button {
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: 16px;
+}

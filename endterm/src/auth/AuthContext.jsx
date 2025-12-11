@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "../firebase";
+import {
+  logoutUser,
+  subscribeToAuthChanges,
+} from "../services/authService";
 
 const AuthContext = createContext(null);
 
@@ -9,7 +11,7 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+    const unsubscribe = subscribeToAuthChanges((firebaseUser) => {
       setUser(firebaseUser || null);
       setLoading(false);
     });
@@ -18,7 +20,8 @@ export function AuthProvider({ children }) {
   }, []);
 
   async function logout() {
-    await signOut(auth);
+    await logoutUser();
+    setUser(null);
   }
 
   const value = { user, loading, logout };

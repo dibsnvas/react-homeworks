@@ -5,6 +5,9 @@
   background-color: #111;
   border-bottom: 1px solid #333;
   padding: 12px 0;
+  background: var(--card-bg);
+  color: var(--text);
+
 }
 
 .navbar__content {
@@ -45,4 +48,11 @@
   color: #8ea6ff;
   border-bottom: 2px solid #8ea6ff;
   padding-bottom: 2px;
+}
+.navbar__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  object-fit: cover;
+  margin-left: 8px;
 }

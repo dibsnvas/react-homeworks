@@ -32,6 +32,15 @@ export default function NavBar() {
           {user && (
             <>
               <NavLink to="/profile" className="nav-link">Profile</NavLink>
+
+              {user.photoURL && (
+                <img
+                  src={user.photoURL}
+                  alt="Avatar"
+                  className="navbar__avatar"
+                />
+              )}
+
               <button
                 type="button"
                 onClick={handleLogout}

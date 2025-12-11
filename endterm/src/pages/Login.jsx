@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
-import { useNavigate, Link } from "react-router-dom";
+import { loginWithEmail } from "../services/authService";
+import { useNavigate, Link, Navigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 
 export default function Login() {
@@ -19,11 +18,19 @@ export default function Login() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setSubmitting(true);
     setError("");
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      setError("Invalid email format");
+      return;
+    }
+
+    setSubmitting(true);
+
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await loginWithEmail(email, password);
       navigate("/profile");
     } catch (err) {
       setError(err.message || "Failed to login");
@@ -32,50 +39,45 @@ export default function Login() {
     }
   }
 
-return (
-  <section className="auth-page">
-    <div className="auth-card">
-      <h1 className="auth-title">Login</h1>
+  return (
+    <section className="auth-page">
+      <div className="auth-card">
+        <h1 className="auth-title">Login</h1>
 
-      <form className="auth-form" onSubmit={handleSubmit}>
-        <label className="auth-label">
-          Email
-          <input
-            className="auth-input"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
+        <form className="auth-form" onSubmit={handleSubmit}>
+          <label className="auth-label">
+            Email
+            <input
+              className="auth-input"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </label>
 
-        <label className="auth-label">
-          Password
-          <input
-            className="auth-input"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
+          <label className="auth-label">
+            Password
+            <input
+              className="auth-input"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </label>
 
-        <button className="auth-button" type="submit" disabled={submitting}>
-          {submitting ? "Logging in..." : "Login"}
-        </button>
-      </form>
+          <button className="auth-button" type="submit" disabled={submitting}>
+            {submitting ? "Logging in..." : "Login"}
+          </button>
+        </form>
 
-      {error && (
-        <p className="auth-error">
-          {error}
+        {error && <p className="auth-error">{error}</p>}
+
+        <p className="auth-footer">
+          Don't have an account? <Link to="/signup">Sign up</Link>
         </p>
-      )}
-
-      <p className="auth-footer">
-        Don't have an account?{" "}
-        <Link to="/signup">Sign up</Link>
-      </p>
-    </div>
-  </section>
-);
+      </div>
+    </section>
+  );
 }

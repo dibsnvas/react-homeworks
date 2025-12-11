@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import { uploadProfilePhoto, getUserProfile } from "../services/profileService";
+import { auth } from "../firebase"; 
+import { updateProfile } from "firebase/auth";
 
 function compressImageInWorker(file) {
   return new Promise((resolve, reject) => {
@@ -44,7 +46,7 @@ function fileToBase64(file) {
 export default function Profile() {
   const { user, loading, logout } = useAuth();
 
-  const [photoUrl, setPhotoUrl] = useState(null); // тут base64
+  const [photoUrl, setPhotoUrl] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState(null);
 
@@ -55,8 +57,8 @@ export default function Profile() {
       if (!user) return;
       try {
         const profile = await getUserProfile(user.uid);
-        if (!cancelled && profile?.photo) {
-          setPhotoUrl(profile.photo); // 👈 читаем поле photo
+        if (!cancelled && profile?.photoUrl) {
+          setPhotoUrl(profile.photoUrl);
         }
       } catch (err) {
         console.error("Failed to load profile:", err);
@@ -64,7 +66,6 @@ export default function Profile() {
     }
 
     loadProfile();
-
     return () => {
       cancelled = true;
     };
@@ -88,11 +89,15 @@ export default function Profile() {
     try {
       const compressed = await compressImageInWorker(file);
 
-      const base64 = await fileToBase64(compressed);
+      const url = await uploadProfilePhoto(user.uid, compressed);
 
-      const savedBase64 = await uploadProfilePhoto(user.uid, base64);
+      try {
+        await updateProfile(auth.currentUser, { photoURL: url });
+      } catch (e) {
+        console.warn("updateProfile failed, but it's not critical", e);
+      }
 
-      setPhotoUrl(savedBase64);
+      setPhotoUrl(url);
     } catch (err) {
       console.error(err);
       setUploadError(err.message || "Failed to upload photo");
@@ -143,21 +148,10 @@ export default function Profile() {
             </div>
           )}
 
-          <label
-            style={{
-              marginTop: 12,
-              display: "inline-block",
-              padding: "6px 12px",
-              borderRadius: 6,
-              background: "#444",
-              color: "#fff",
-              cursor: uploading ? "default" : "pointer",
-              opacity: uploading ? 0.7 : 1,
-            }}
-          >
+          <label /* ... как у тебя было ... */>
             <input
               type="file"
-              accept="image/*"
+              accept="image/png,image/jpeg"
               onChange={handleFileChange}
               style={{ display: "none" }}
               disabled={uploading}

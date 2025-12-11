@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 
@@ -22,20 +22,20 @@ export default function ItemsList() {
   const [search, setSearch] = useState(queryFromUrl);
   const debouncedSearch = useDebounce(search, 500);
 
-useEffect(() => {
-  setSearchParams((prev) => {
-    const params = new URLSearchParams(prev);
+  useEffect(() => {
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev);
 
-    if (debouncedSearch) {
-      params.set("q", debouncedSearch);
-      params.set("page", "1");
-    } else {
-      params.delete("q");
-    }
+      if (debouncedSearch) {
+        params.set("q", debouncedSearch);
+        params.set("page", "1");
+      } else {
+        params.delete("q");
+      }
 
-    return params;
-  });
-}, [debouncedSearch]);
+      return params;
+    });
+  }, [debouncedSearch, setSearchParams]);
 
   useEffect(() => {
     dispatch(
@@ -46,29 +46,35 @@ useEffect(() => {
     );
   }, [dispatch, queryFromUrl, pageFromUrl]);
 
-  const totalPages = count ? Math.ceil(count / 10) : null;
+  const totalPages = useMemo(() => {
+    if (!count) return null;
+    return Math.ceil(count / 10);
+  }, [count]);
 
-  function goToPage(newPage) {
-    if (newPage < 1) return;
+  const goToPage = useCallback(
+    (newPage) => {
+      if (newPage < 1) return;
 
-    setSearchParams((prev) => {
-      const params = new URLSearchParams(prev);
+      setSearchParams((prev) => {
+        const params = new URLSearchParams(prev);
 
-      if (debouncedSearch) {
-        params.set("q", debouncedSearch);
-      } else {
-        params.delete("q");
-      }
+        if (debouncedSearch) {
+          params.set("q", debouncedSearch);
+        } else {
+          params.delete("q");
+        }
 
-      params.set("page", String(newPage));
-      return params;
-    });
-  }
+        params.set("page", String(newPage));
+        return params;
+      });
+    },
+    [debouncedSearch, setSearchParams]
+  );
 
   return (
     <section className="items-page">
       <h1 className="page-title">Star Wars Characters</h1>
-      <p>Search by name using server-side filtering.</p>
+      <p>Search by name using server-side filtering</p>
 
       <div style={{ margin: "16px 0" }}>
         <input
@@ -80,13 +86,10 @@ useEffect(() => {
         />
       </div>
 
-      {/* Ошибка */}
       {errorList && <ErrorBox message={errorList} />}
 
-      {/* Лоадер */}
       {loadingList && <Spinner />}
 
-      {/* Список */}
       {!loadingList && !errorList && (
         <>
           {list.length === 0 ? (
@@ -101,7 +104,6 @@ useEffect(() => {
         </>
       )}
 
-      {/* Пагинация */}
       <div
         style={{
           marginTop: "24px",
