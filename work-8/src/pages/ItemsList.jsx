@@ -20,6 +20,7 @@ export default function ItemsList() {
     query,
   } = useSelector((state) => state.items);
 
+  
   useEffect(() => {
     dispatch(setQuery(q));
     dispatch(fetchItems(q));
