@@ -1,26 +1,19 @@
 import { db } from "../firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-const storage = getStorage();
+export async function uploadProfilePhoto(uid, base64) {
+  const ref = doc(db, "profiles", uid);
 
-export async function uploadProfilePhoto(uid, file) {
-  const storageRef = ref(storage, `profilePhotos/${uid}.jpg`);
-  const snapshot = await uploadBytes(storageRef, file);
-
-  const url = await getDownloadURL(snapshot.ref);
-
-  const profileRef = doc(db, "profiles", uid);
   await setDoc(
-    profileRef,
+    ref,
     {
-      photoUrl: url,
+      photo: base64,
       updatedAt: Date.now(),
     },
     { merge: true }
   );
 
-  return url;
+  return base64;
 }
 
 export async function getUserProfile(uid) {

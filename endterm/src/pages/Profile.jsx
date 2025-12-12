@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import { uploadProfilePhoto, getUserProfile } from "../services/profileService";
-import { auth } from "../firebase"; 
-import { updateProfile } from "firebase/auth";
 
 function compressImageInWorker(file) {
   return new Promise((resolve, reject) => {
@@ -16,7 +14,9 @@ function compressImageInWorker(file) {
       const { success, blob, error } = event.data;
 
       if (success) {
-        const compressedFile = new File([blob], file.name, { type: blob.type });
+        const compressedFile = new File([blob], file.name, {
+          type: blob.type,
+        });
         resolve(compressedFile);
       } else {
         reject(new Error(error || "Compression failed"));
@@ -37,7 +37,7 @@ function compressImageInWorker(file) {
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.onloadend = () => resolve(reader.result); // "data:image/jpeg;base64,..."
+    reader.onloadend = () => resolve(reader.result);
     reader.onerror = reject;
     reader.readAsDataURL(file);
   });
@@ -46,9 +46,9 @@ function fileToBase64(file) {
 export default function Profile() {
   const { user, loading, logout } = useAuth();
 
-  const [photoUrl, setPhotoUrl] = useState(null);
+  const [photo, setPhoto] = useState(null); // base64
   const [uploading, setUploading] = useState(false);
-  const [uploadError, setUploadError] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -57,8 +57,8 @@ export default function Profile() {
       if (!user) return;
       try {
         const profile = await getUserProfile(user.uid);
-        if (!cancelled && profile?.photoUrl) {
-          setPhotoUrl(profile.photoUrl);
+        if (!cancelled && profile?.photo) {
+          setPhoto(profile.photo);
         }
       } catch (err) {
         console.error("Failed to load profile:", err);
@@ -81,26 +81,20 @@ export default function Profile() {
 
   async function handleFileChange(e) {
     const file = e.target.files?.[0];
-    if (!file || !user) return;
+    if (!file) return;
 
-    setUploadError(null);
+    setError(null);
     setUploading(true);
 
     try {
       const compressed = await compressImageInWorker(file);
+      const base64 = await fileToBase64(compressed);
 
-      const url = await uploadProfilePhoto(user.uid, compressed);
-
-      try {
-        await updateProfile(auth.currentUser, { photoURL: url });
-      } catch (e) {
-        console.warn("updateProfile failed, but it's not critical", e);
-      }
-
-      setPhotoUrl(url);
+      const savedBase64 = await uploadProfilePhoto(user.uid, base64);
+      setPhoto(savedBase64);
     } catch (err) {
       console.error(err);
-      setUploadError(err.message || "Failed to upload photo");
+      setError(err.message || "Failed to upload image");
     } finally {
       setUploading(false);
       e.target.value = "";
@@ -116,10 +110,11 @@ export default function Profile() {
       <div className="profile-card">
         <h1 className="profile-title">Your Profile</h1>
 
+        {/* ===== Avatar ===== */}
         <div className="profile-avatar-block">
-          {photoUrl ? (
+          {photo ? (
             <img
-              src={photoUrl}
+              src={photo}
               alt="Profile"
               className="profile-avatar"
               style={{
@@ -132,7 +127,6 @@ export default function Profile() {
             />
           ) : (
             <div
-              className="profile-avatar placeholder"
               style={{
                 width: 120,
                 height: 120,
@@ -148,7 +142,18 @@ export default function Profile() {
             </div>
           )}
 
-          <label /* ... как у тебя было ... */>
+          <label
+            style={{
+              marginTop: 12,
+              display: "inline-block",
+              padding: "6px 12px",
+              borderRadius: 6,
+              background: "#444",
+              color: "#fff",
+              cursor: uploading ? "default" : "pointer",
+              opacity: uploading ? 0.7 : 1,
+            }}
+          >
             <input
               type="file"
               accept="image/png,image/jpeg"
@@ -159,20 +164,20 @@ export default function Profile() {
             {uploading ? "Uploading..." : "Upload photo"}
           </label>
 
-          {uploadError && (
-            <p style={{ color: "salmon", marginTop: 8 }}>{uploadError}</p>
+          {error && (
+            <p style={{ color: "salmon", marginTop: 8 }}>{error}</p>
           )}
         </div>
 
         <div className="profile-info">
           <div className="profile-info-item">
-            <span className="profile-label">Email</span>
-            <span className="profile-value">{user.email}</span>
+            <span>Email</span>
+            <span>{user.email}</span>
           </div>
 
           <div className="profile-info-item">
-            <span className="profile-label">User ID</span>
-            <span className="profile-value">{user.uid}</span>
+            <span>User ID</span>
+            <span>{user.uid}</span>
           </div>
         </div>
 
